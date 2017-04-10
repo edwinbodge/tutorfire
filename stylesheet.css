@@ -371,8 +371,8 @@ li a:hover {
 .project-info {
 	margin-left:10%;
 	width:80%;
-	text-align:center;
-	font-size: 14px;
+	text-align:left;
+	font-size: 20px;
 	color: white;
 	font-family: Lucida Grande;
 	font-style: normal;
