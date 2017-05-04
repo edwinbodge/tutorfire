@@ -42,12 +42,12 @@
 <table width = "100%">
 <tr valign="top">
     <td width="50" valign="middle">
-      <img src="mainview.png" width="70%" alt="" class="center-title-image"/>
+      <img id="project-image" src="mainview.png" width="70%" alt="" class="center-title-image"/>
     </td>
     <td width="100" height="200" valign="middle">
     
     <h2> Students and Tutors Welcome</h2>
-     <p>Our app is called TutorFire, and it is a new way for students to connect with tutors that best meet their demands. The app will have two modes, one for students and one for tutors. After creating an account and signing in, the user will be able to use the app. </p>
+     <p>Tutorfire is a new way for students to connect with tutors that best meet their demands. The app has two modes, one for students and one for tutors. After creating an account and signing in, the user will be able to use the app.</p>
     </td>
   </tr>
  </table>
@@ -58,10 +58,10 @@
     <td width="100" height="200" valign="middle">
     
     <h2>Display Your Courses</h2>
-     <p>While in student mode, the user will be able to specify what subject they need help in and what times work best for him/her. After querying a database of tutors, the matching list of tutors will be shown to the user, along with their contact information. The student will then be able to select a specific tutor from the list and initiate a chat with them. We will also allow the tutor-student pair to schedule a meeting directly from the app using Google Calendar. </p>
+     <p>In student mode, the user specify what subject they need help in and what times work best for them. </p> <p>After querying a database of tutors, the matching list of tutors will be shown to the user, along with their contact information. The student will then be able to select a specific tutor from the list and start a chat with them, so they can set up meeting locations and times, as well as discuss the subject material.</p>
     </td>
     <td width="50" valign="middle">
-      <img src="coursesview.png" width="70%" alt="" class="center-title-image"/>
+      <img id="project-image" src="coursesview.png" width="70%" alt="" class="center-title-image"/>
     </td>
   </tr>
  </table>
@@ -71,14 +71,12 @@
 <table width = "100%">
 <tr valign="top">
     <td width="50" valign="middle">
-      <img src="timesview.png" width="70%" alt="" class="center-title-image"/>
+      <img id="project-image" src="timesview.png" width="70%" alt="" class="center-title-image"/>
     </td>
     <td width="100" height="200" valign="middle">
     
     <h2>Pick Your Times</h2>
-     <p>While in tutor mode, the user can set the classes in which they are proficient and what time slots they are available. This information will be used to update the database of tutors. Tutors will also be able to see recent messages from students and schedule meetings with them. </p>
-
-<p>We anticipate creating a remote database to hold information about tutors, which will be queried whenever a student is searching for a tutor. </p>
+     <p>While in tutor mode, the user can set the classes in which they are proficient and what time slots they are available. This information will be used to update the database of tutors. Tutors will also be able to see recent messages from students and schedule meetings with them.</p>
     </td>
     
   </tr>
@@ -91,18 +89,55 @@
     <td width="100" height="200" valign="middle">
     
     <h2>Find Your Next Tutor</h2>
-     <p>We also anticipate using the Google Calendar API, or something similar, to schedule meetings directly from the app. </p>
+    
+<p>We use Firebase to handle messaging and user authentication services.</p>
 
-<p>For handling users and authentication, we plan on using Firebase Authentication. </p>
-
-<p>We also plan to use the phone's camera to allow tutors to add a profile picture to their information that is shown to the students. </p>
+<p>Students and Tutors have profiles that show their photo, their classes, as well as their average rating out of 5 stars. </p>
     </td>
     <td width="50" valign="middle">
-      <img src="findtutor.png" width="70%" alt="" class="center-title-image"/>
+      <img id="project-image" src="findtutor.png" width="70%" alt="" class="center-title-image"/>
     </td>
   </tr>
  </table>
 </div>
+
+
+<div class="myblock2">
+<h2>Remote MySQL Database - Schema</h2>
+
+
+   
+      Users(uid, name, photo_url)
+<p>CanTeach(uid, subject, course)</p>
+<p>TimesFree(uid, day, start_time, end_time)</p>
+<p>IsTutorOf(tutor_uid, student_uid, chat_hash)</p>
+<p>TutorsStudentIn(tutor_uid, student_uid, subject, course)</p>
+<p>RatesTutorAs(tutor_uid, student_uid, rating)</p>
+
+</div>
+
+
+<div class="myblock2">
+<h2>Example SQL statements</h2>
+    
+<strong>Suppose I am a tutor and want to now add CS 250 to the list of courses I can teach. </strong>
+
+<p>We would execute the following SQL statement.</p>
+<p>INSERT INTO CanTeach (uid, subject, course)</p>
+<p>VALUES (MY_UID, "CS", "250")</p>
+
+<strong>Suppose I am a student and want to get the list of all my current tutors and which courses they tutor me in.</strong>
+<p>SELECT IsTutorOf.tutor_uid, name, photo_url, chat_hash, rating, subject, course </p>
+<p>FROM IsTutorOf, Users, TutorsStudentIn, RatesTutorAs </p>
+<p>WHERE IsTutorOf.student_uid = STUDENT_UID AND uid = IsTutorOf.tutor_uid </p>
+ <p>AND IsTutorOf.student_uid = TutorsStudentIn.student_uid AND IsTutorOf.tutor_uid = TutorsStudentIn.tutor_uid </p>
+<p>AND IsTutorOf.tutor_uid = RatesTutorAs.tutor_uid AND IsTutorOf.student_uid = RatesTutorAs.student_uid</p>
+<p>What does the response for this query look like?</p>
+<p>{"results":[{"tutor_uid":"TUTOR_UID","name":"Harrison Lundberg", "photo_url":"PHOTO_URL","chat_hash":"CHAT_HASH", "rating":"4","subject":"AAAS","course":"102"}], "success":1}</p>
+ 
+</div>
+
+
 
 
 
